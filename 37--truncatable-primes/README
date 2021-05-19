@@ -5,7 +5,8 @@ works.
 A followup question: How do we know there are no more
 bidirectionally-truncatable primes?
 
-    # Naive implementation of is_prime
+Naive implementation of is_prime:
+
     def is_prime(n):
         if n <= 1:
             return False

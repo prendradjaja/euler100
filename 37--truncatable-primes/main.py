@@ -1,4 +1,5 @@
-from collections import OrderedDict
+# This solution requires Python 3.6+ (dicts remember insertion order). To use
+# with an older version of Python, use collections.OrderedDict
 
 max_n = 1_000_000  # found by trial and error
 primes = None
@@ -21,7 +22,9 @@ def is_prime(n):
 # A simple implementation of the Sieve of Eratosthenes.
 # n is inclusive
 def primes_up_to(n):
-    is_prime = OrderedDict((n, True) for n in range(2, n+1))
+    # The usage of this dict depends on Python 3.6+ dicts being ordered (for
+    # the "increment" part)
+    is_prime = { n: True for n in range(2, n+1) }
     i = 2
     while i <= n ** 0.5:
         for j in range(i*2, n+1, i):
@@ -32,10 +35,12 @@ def primes_up_to(n):
         while not is_prime[i]:
             i += 1
 
-    result = set()
+    # This dict is being used to simulate an ordered set (Depends on Python
+    # 3.6+ dicts being ordered. There is no collections.OrderedSet)
+    result = {}
     for n in is_prime:
         if is_prime[n]:
-            result.add(n)
+            result[n] = True
     return result
 
 def is_left_truncatable(p):
