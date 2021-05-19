@@ -55,12 +55,12 @@ class Date:
         if month in [Month.SEPTEMBER, Month.APRIL, Month.JUNE, Month.NOVEMBER]:
             return 30
         # All the rest have thirty-one
-        elif month == Month.FEBRUARY:
+        elif month != Month.FEBRUARY:
             return 31
         # Saving February alone...
         else:
             is_leap_year = Date.is_leap_year(year)
-            return 29 if is_leap_year else 8
+            return 29 if is_leap_year else 28
 
     @staticmethod
     def is_leap_year(year):
