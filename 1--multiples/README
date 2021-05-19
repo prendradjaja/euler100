@@ -1,0 +1,4 @@
+Initially got the wrong answer. I used inclusive range, but should've excluded the high endpoint of
+the range. (Didn't read problem statement carefully enough.)
+
+Not sure why I reached for JavaScript: Using a language with a range builtin is a bit nicer.
