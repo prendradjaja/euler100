@@ -21,7 +21,7 @@ def primes_up_to(n):
             result.append(n)
     return result
 
-count_to_generate = 200_000 # found by trial and error
+max_n = 200_000 # found by trial and error
 target_index = 10_000 # 10001st 0-indexed
 
-print(primes_up_to(count_to_generate)[target_index])
+print(primes_up_to(max_n)[target_index])
