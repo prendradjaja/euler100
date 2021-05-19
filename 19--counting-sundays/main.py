@@ -10,7 +10,7 @@ def main():
         date = date.tomorrow()
 
     total = 0
-    while not date.equals(2000, 1, 1):
+    while not date.equals(2001, 1, 1):
         if date.weekday == SUNDAY and date.day == 1:
             total += 1
         date = date.tomorrow()
