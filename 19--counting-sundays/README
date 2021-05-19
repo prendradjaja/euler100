@@ -1,6 +1,6 @@
 Fun problem.
 
-Initially got the wrong answer (168) because of this bug and typo:
+Initially got the wrong answer (168) because of this bug (flipped boolean condition) and typo:
 
     commit 9ef939f1f8efaf835ce8511b1b9b9dcc7ff2f254
              if month in [Month.SEPTEMBER, Month.APRIL, Month.JUNE, Month.NOVEMBER]:
@@ -15,7 +15,8 @@ Initially got the wrong answer (168) because of this bug and typo:
     -            return 29 if is_leap_year else 8
     +            return 29 if is_leap_year else 28
 
-Still had the wrong answer (170) because of this bug:
+Still had the wrong answer (170) because of this bug: (not reading problem statement carefully
+enough)
 
     commit e2baf87f7574e5651306c52fff13067625f3f08b
          total = 0
@@ -26,6 +27,10 @@ Still had the wrong answer (170) because of this bug:
              date = date.tomorrow()
 
 Fixing that got me the right answer.
+
+
+DEBUGGING NOTES
+===============
 
 Debugging required me to add some logging and unit tests, which showed me that there was a bug in
 num_days() and no bug in tomorrow().
