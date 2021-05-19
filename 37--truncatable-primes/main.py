@@ -3,7 +3,7 @@
 #
 # (Actually, dicts from 3.6 remember insertion order, but it is only since 3.7
 # that this is considered a language feature instead of just an implementation
-# detail of CPython)
+# detail of CPython -- see https://stackoverflow.com/questions/39980323/are-dictionaries-ordered-in-python-3-6)
 
 max_n = 1_000_000  # found by trial and error
 primes = None
