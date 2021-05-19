@@ -4,7 +4,7 @@ def main():
     while len(found) < 11:
         if is_left_truncatable(n) and is_right_truncatable(n):
             found.append(n)
-            print(len(found), n)
+            print(f'Found bidirectionally-truncatable prime #{len(found)}: {n}')
         if n % 1000 == 0:
             print('...', n)
         n += 1
