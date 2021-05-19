@@ -1,5 +1,9 @@
-# This solution requires Python 3.6+ (dicts remember insertion order). To use
+# This solution requires Python 3.7+ (dicts remember insertion order). To use
 # with an older version of Python, use collections.OrderedDict
+#
+# (Actually, dicts from 3.6 remember insertion order, but it is only since 3.7
+# that this is considered a language feature instead of just an implementation
+# detail of CPython)
 
 max_n = 1_000_000  # found by trial and error
 primes = None
@@ -22,7 +26,7 @@ def is_prime(n):
 # A simple implementation of the Sieve of Eratosthenes.
 # n is inclusive
 def primes_up_to(n):
-    # The usage of this dict depends on Python 3.6+ dicts being ordered (for
+    # The usage of this dict depends on Python 3.7+ dicts being ordered (for
     # the "increment" part)
     is_prime = { n: True for n in range(2, n+1) }
     i = 2
@@ -36,7 +40,7 @@ def primes_up_to(n):
             i += 1
 
     # This dict is being used to simulate an ordered set (Depends on Python
-    # 3.6+ dicts being ordered. There is no collections.OrderedSet)
+    # 3.7+ dicts being ordered. There is no collections.OrderedSet)
     result = {}
     for n in is_prime:
         if is_prime[n]:
