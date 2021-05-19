@@ -1,15 +1,22 @@
 from collections import OrderedDict
 
+max_n = 1_000_000  # found by trial and error
+primes = None
+
 def main():
+    global primes
+
     max_n = 1_000_000
     primes = primes_up_to(max_n)
     found = []
     for p in primes:
-        if is_left_truncatable(p, primes) and is_right_truncatable(p, primes):
+        if is_left_truncatable(p) and is_right_truncatable(p):
             found.append(p)
             print(f'Found bidirectionally-truncatable prime #{len(found)}: {p}')
     print(sum(found))
 
+def is_prime(n):
+    return n in primes
 
 # A simple implementation of the Sieve of Eratosthenes.
 # n is inclusive
@@ -31,26 +38,26 @@ def primes_up_to(n):
             result.add(n)
     return result
 
-def is_left_truncatable(p, primes):
+def is_left_truncatable(p):
     if p < 10:
         return False
     p = str(p)
     for i in range(0, len(p)):
-        if int(p[i:]) not in primes:
+        if not is_prime(int(p[i:])):
             return False
     return True
 
-def is_right_truncatable(p, primes):
+def is_right_truncatable(p):
     if p < 10:
         return False
-    if p not in primes:
+    if not is_prime(p):
         # Unlike in is_left_truncatable, we can't check if p is prime by just
         # folding this check into the loop, since string[:0] returns the empty
         # string, not the full string
         return False
     p = str(p)
     for i in range(1, len(p)):
-        if int(p[:i]) not in primes:
+        if not is_prime(int(p[:i])):
             return False
     return True
 
