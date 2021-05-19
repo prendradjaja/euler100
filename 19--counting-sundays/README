@@ -1,0 +1,102 @@
+Fun problem.
+
+Initially got the wrong answer (168) because of this bug and typo:
+
+    commit 9ef939f1f8efaf835ce8511b1b9b9dcc7ff2f254
+             if month in [Month.SEPTEMBER, Month.APRIL, Month.JUNE, Month.NOVEMBER]:
+                 return 30
+             # All the rest have thirty-one
+    -        elif month == Month.FEBRUARY:
+    +        elif month != Month.FEBRUARY:
+                 return 31
+             # Saving February alone...
+             else:
+                 is_leap_year = Date.is_leap_year(year)
+    -            return 29 if is_leap_year else 8
+    +            return 29 if is_leap_year else 28
+
+Still had the wrong answer (170) because of this bug:
+
+    commit e2baf87f7574e5651306c52fff13067625f3f08b
+         total = 0
+    -    while not date.equals(2000, 1, 1):
+    +    while not date.equals(2001, 1, 1):
+             if date.weekday == SUNDAY and date.day == 1:
+                 total += 1
+             date = date.tomorrow()
+
+Fixing that got me the right answer.
+
+Debugging required me to add some logging and unit tests, which showed me that there was a bug in
+num_days() and no bug in tomorrow().
+
+    @@ -11,8 +11,11 @@ def main():
+
+         total = 0
+         while not date.equals(2001, 1, 1):
+    +        inc = False
+             if date.weekday == SUNDAY and date.day == 1:
+                 total += 1
+    +            inc = True
+    +        print(str(date) + (' *' if inc else ''))
+             date = date.tomorrow()
+         print(total)
+
+    @@ -40,6 +43,27 @@ class Date:
+             self.weekday = weekday
+
+         def tomorrow(self):
+    +        """
+    +        >>> FAKE_MONDAY = 0
+    +        >>> Date(2000, 1, 5, FAKE_MONDAY).tomorrow()
+    +        Date(2000, 1, 6, 1)
+    +        >>> Date(2000, 1, 30, FAKE_MONDAY).tomorrow()
+    +        Date(2000, 1, 31, 1)
+    +        >>> Date(2000, 1, 31, FAKE_MONDAY).tomorrow()
+    +        Date(2000, 2, 1, 1)
+    +        >>> Date(2000, 2, 29, FAKE_MONDAY).tomorrow()
+    +        Date(2000, 3, 1, 1)
+    +        >>> Date(2000, 11, 5, FAKE_MONDAY).tomorrow()
+    +        Date(2000, 11, 6, 1)
+    +        >>> Date(2000, 11, 29, FAKE_MONDAY).tomorrow()
+    +        Date(2000, 11, 30, 1)
+    +        >>> Date(2000, 11, 30, FAKE_MONDAY).tomorrow()
+    +        Date(2000, 12, 1, 1)
+    +        >>> Date(2000, 12, 30, FAKE_MONDAY).tomorrow()
+    +        Date(2000, 12, 31, 1)
+    +        >>> Date(2000, 12, 31, FAKE_MONDAY).tomorrow()
+    +        Date(2001, 1, 1, 1)
+    +        """
+             last_day = Date.num_days(self.year, self.month)
+             next_weekday = (self.weekday + 1) % 7
+             if self.day < last_day:
+    @@ -51,6 +75,20 @@ class Date:
+
+         @staticmethod
+         def num_days(year, month):
+    +        """
+    +        >>> Date.num_days(2000, 1)
+    +        31
+    +        >>> Date.num_days(2000, 4)
+    +        30
+    +        >>> Date.num_days(2000, 2)
+    +        29
+    +        >>> Date.num_days(2004, 2)
+    +        29
+    +        >>> Date.num_days(2001, 2)
+    +        28
+    +        >>> Date.num_days(2100, 2)
+    +        28
+    +        """
+             # Thirty days has...
+             if month in [Month.SEPTEMBER, Month.APRIL, Month.JUNE, Month.NOVEMBER]:
+                 return 30
+    @@ -78,5 +116,8 @@ class Date:
+         def equals(self, year, month, day):
+             return self.year == year and self.month == month and self.day == day
+
+    +    def __repr__(self):
+    +        return f'Date({self.year}, {self.month}, {self.day}, {self.weekday})'
+    +
+     if __name__ == '__main__':
+         main()
