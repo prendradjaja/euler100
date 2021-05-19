@@ -8,7 +8,7 @@ def main():
         if is_left_truncatable(p, primes) and is_right_truncatable(p, primes):
             found.append(p)
             print(f'Found bidirectionally-truncatable prime #{len(found)}: {p}')
-    print(len(found), found)
+    print(sum(found))
 
 
 # A simple implementation of the Sieve of Eratosthenes.
