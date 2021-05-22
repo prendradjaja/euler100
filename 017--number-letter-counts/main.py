@@ -1,10 +1,10 @@
 import re
 
-# allow_zero is for internal use
-def spell(n, allow_zero=False):
-    assert 0 <= n <= 9999 and int(n) == n, f'{n} is out of range'
+# zero_as_empty is for internal use, returns '' if n is 0
+def spell(n, zero_as_empty=False):
+    assert 0 <= n <= 1000 and int(n) == n, f'{n} is out of range'
     if 0 == n:
-        assert allow_zero, '0 provided without allow_zero'
+        assert zero_as_empty, '0 provided without zero_as_empty'
         return ''
     elif 1 <= n <= 9:
         return spell_digit(n)
@@ -14,22 +14,18 @@ def spell(n, allow_zero=False):
         return spell_tens(n)
     elif 100 <= n <= 900 and n % 100 == 0:
         return spell_hundreds(n)
-    elif 1000 <= n <= 9000 and n % 1000 == 0:
-        return spell_thousands(n)
+    elif 1000 == n:
+        return 'one thousand'
     elif 21 <= n <= 99:  # and is not a multiple of 10, since that's above
         return join_nonempty([
             spell(get_digit(n, 10)),
             spell(get_digit(n, 1)),
         ], '-')
     else:
-        large_part = join_nonempty([
-            spell(get_digit(n, 1000), True),
+        return join_nonempty([
             spell(get_digit(n, 100), True),
-        ], ' ')
-
-        small_part = spell(n % 100, True)
-
-        return join_nonempty([large_part, small_part], ' and ')
+            spell(n % 100, True),
+        ], ' and ')
 
 def join_nonempty(items, separator):
     return separator.join(x for x in items if x)
@@ -83,9 +79,6 @@ def spell_tens(n):
 
 def spell_hundreds(n):
     return spell(n // 100) + ' hundred'
-
-def spell_thousands(n):
-    return spell(n // 1000) + ' thousand'
 
 total = 0
 for i in range(1, 1000 + 1):
