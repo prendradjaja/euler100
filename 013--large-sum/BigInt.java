@@ -6,8 +6,8 @@ import java.util.Arrays;
 
 public class BigInt implements Cloneable {
 
-  private static int CHUNK_MAX = 0x7FFF;
-  private static int RADIX = 0x8000;
+  private static int CHUNK_MAX = 9999;
+  private static int RADIX = 10_000;
 
   // TODO private
   public ArrayList<Integer> chunks; // Least significant chunk first
@@ -75,7 +75,7 @@ public class BigInt implements Cloneable {
   public String toString() {
     String result = "";
     for (int chunk : chunks) {
-      result += String.format("%04X ", chunk);
+      result += String.format("%04d ", chunk);
     }
     return result;
   }
