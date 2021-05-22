@@ -62,6 +62,7 @@ def spell_teens_and_preteens(n):
     irregulars = {
         11: 'eleven',
         12: 'twelve',
+        13: 'thirteen',
         15: 'fifteen',
         18: 'eighteen', # not eightteen
     }
