@@ -1,0 +1,8 @@
+Each language has some things I wish the other had:
+
+Python:
+- enumerate() has 'start' option
+- max() has 'key' option
+
+JavaScript:
+- Destructuring in function parameters: Particularly nice with maxBy
