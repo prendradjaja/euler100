@@ -2,15 +2,13 @@ import java.lang.Cloneable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-// Each chunk is up to 2**15 - 1
-
 public class BigInt implements Cloneable {
 
   private static int CHUNK_MAX = 9999;
   private static int RADIX = 10_000;
+  private static int CHUNK_DIGITS = 4;
 
-  // TODO private
-  public ArrayList<Integer> chunks; // Least significant chunk first
+  private ArrayList<Integer> chunks; // Least significant chunk first
 
   public BigInt() {
     chunks = new ArrayList<>();
@@ -27,17 +25,6 @@ public class BigInt implements Cloneable {
     BigInt copy = new BigInt();
     copy.chunks = new ArrayList<>(chunks);
     return copy;
-  }
-
-  // Remove any unnecessary zero most-significant chunk(s)
-  private void trim() {
-    for (int i = chunks.size() - 1; i > 0; i--) {
-      if (chunks.get(i) == 0) {
-        chunks.remove(i);
-      } else {
-        return;
-      }
-    }
   }
 
   public boolean isValid() {
@@ -71,12 +58,50 @@ public class BigInt implements Cloneable {
     return result;
   }
 
-  // Least significant chunk first
+  // Remove any unnecessary zero most-significant chunk(s)
+  private void trim() {
+    for (int i = chunks.size() - 1; i > 0; i--) {
+      if (chunks.get(i) == 0) {
+        chunks.remove(i);
+      } else {
+        return;
+      }
+    }
+  }
+
+  // Most significant chunk first
   public String toString() {
     String result = "";
-    for (int chunk : chunks) {
-      result += String.format("%04d ", chunk);
+    for (int i = chunks.size() - 1; i >= 0; i--) {
+      result += String.format("%04d", chunks.get(i));
     }
     return result;
+  }
+
+  public static BigInt fromString(String n) {
+    BigInt result = new BigInt();
+    int chunkCount = BigInt.getChunkCount(n.length());
+
+    // Pad with zeroes to a whole number of chunks
+    int paddingLength = chunkCount * CHUNK_DIGITS - n.length();
+    String padding = "";
+    for (int i = 0; i < paddingLength; i++) {
+      padding += "0";
+    }
+    n = padding + n;
+
+    // Iterate over chunks from least to most significant
+    for (int i = 0; i < chunkCount; i++) {
+      int startIndex = (chunkCount - 1 - i) * CHUNK_DIGITS;
+      int endIndex = startIndex + 4;
+      int chunk = Integer.parseInt(n.substring(startIndex, endIndex));
+      result.chunks.add(chunk);
+    }
+
+    return result;
+  }
+
+  private static int getChunkCount(int digits) {
+    return (int) Math.ceil(digits / (float) CHUNK_DIGITS);
   }
 }
