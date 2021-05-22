@@ -1,0 +1,4 @@
+Squashed history: https://github.com/prendradjaja/euler100/pull/3
+
+Bug 1: "one hundred and ten-four" (even though "fourteen" worked)
+Bug 2: "threeteen"
