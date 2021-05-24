@@ -1,0 +1,8 @@
+Can a character be used twice in the passcode? (We probably should assume yes,
+in which case the problem is probably harder and I don't know immediately how
+to solve it. But, looking briefly at the input file, the answer might actually
+be no!)
+
+If no, this problem is asking for a topological sort (linearization) of a DAG.
+
+(Even if yes, solve this easier problem too. Try using a graph library!)
