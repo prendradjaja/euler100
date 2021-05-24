@@ -1,1 +1,31 @@
-TODO: Can this be optimized? This takes tens of seconds
+Here are the optimizations I did, which cut runtime in half compared to v1.
+
+v1: 3.78s for 1 million iterations
+
+    @functools.lru_cache(maxsize=None)
+    def f(n):
+        if n in [1, 89]:
+            return n
+        return f(sum(int(d)**2 for d in str(n)))
+
+v2: 1.86s for 1 million iterations
+
+    cache = {1: 1, 89: 89}
+    def f(n):
+        if n in cache:
+            return cache[n]
+        res = f(sum(d*d for d in digits(n)))
+        cache[n] = res
+        return res
+
+    def digits(n):
+        while n:
+            yield n % 10
+            n //= 10
+
+    - Use % // instead of str int for digits
+    - Use d*d instead of d**2 for squaring
+    - Use custom cache instead of general lru_cache
+
+TODO: Can this be optimized more? This still takes tens of seconds to solve
+the full problem.
