@@ -1,10 +1,15 @@
-import functools
-
-@functools.lru_cache(maxsize=None)
+cache = {1: 1, 89: 89}
 def f(n):
-    if n in [1, 89]:
-        return n
-    return f(sum(int(d)**2 for d in str(n)))
+    if n in cache:
+        return cache[n]
+    res = f(sum(d*d for d in digits(n)))
+    cache[n] = res
+    return res
+
+def digits(n):
+    while n:
+        yield n % 10
+        n //= 10
 
 count = 0
 for n in range(1, 10_000_000):
