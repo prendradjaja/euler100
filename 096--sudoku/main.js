@@ -33,6 +33,10 @@ class grid {
   }
 
   isFull() {
+    return this.countFilled() === 81;
+  }
+
+  countFilled() {
     let zeroes = 0;
     for (let row of this.values) {
       for (let value of row) {
@@ -41,7 +45,7 @@ class grid {
         }
       }
     }
-    return zeroes === 0;
+    return 81 - zeroes;
   }
 
   isSolved() {
@@ -74,6 +78,10 @@ class grid {
 
   getCell(r, c) {
     return $('#'+this.getCellId(r, c));
+  }
+
+  getCellValue(r, c) {
+    return this.values[r][c];
   }
 
   setCellValue(r, c, value) {
@@ -112,11 +120,17 @@ class grid {
 
 grid = new grid();
 let successCount = 0;
-// for (let [i, puzzle] of [puzzles[0]].entries()) {
+// puzzles = [puzzles[1]];
 for (let [i, puzzle] of puzzles.entries()) {
   grid.populateFromString(puzzle);
+  const pre = grid.countFilled();
   const success = solve();
+  const post = grid.countFilled();
   successCount += success;
-  console.log(i, success);
+  let failDetails = '';
+  if (!success) {
+    failDetails = `${pre} -> ${post}`
+  }
+  console.log(i, success, failDetails);
 }
 console.log('# of successes:', successCount);

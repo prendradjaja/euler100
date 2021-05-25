@@ -29,3 +29,28 @@ function error(message, ...other) {
   console.error('ERROR', message, ...other);
   throw new Error(); // This error is just used to stop execution
 }
+
+// box-and-index to row-and-column
+// boxRow, boxCol: The row and col of the top left corner of the given box
+// TODO explain index (English reading order indexing)
+function biToRc(boxRow, boxCol, index) {
+  const r = boxRow + Math.floor(index / 3);
+  const c = boxCol + index % 3;
+  return [r, c];
+}
+
+function indicesInRow(r) {
+  return {
+    0: new Set([0, 1, 2]),
+    1: new Set([3, 4, 5]),
+    2: new Set([6, 7, 8]),
+  }[r];
+}
+
+function indicesInCol(c) {
+  return {
+    0: new Set([0, 3, 6]),
+    1: new Set([1, 4, 7]),
+    2: new Set([2, 5, 8]),
+  }[c];
+}

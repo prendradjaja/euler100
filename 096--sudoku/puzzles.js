@@ -1,4 +1,4 @@
-const puzzles = [`
+let puzzles = [`
 003020600
 900305001
 001806400
