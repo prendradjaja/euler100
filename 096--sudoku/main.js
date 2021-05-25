@@ -1,9 +1,12 @@
 const $ = s => document.querySelector(s);
 
+// TODO namespace inside an object called classes
 const GIVEN = 'given';
+const LAST_FILLED = 'last-filled';
 
 class grid {
   values;
+  lastFilled; // which cell did we last setCellValue()
 
   populateFromString(s) {
     const rootElement = $('#grid');
@@ -85,8 +88,14 @@ class grid {
   }
 
   setCellValue(r, c, value) {
+    if (this.lastFilled) {
+      this.lastFilled.classList.remove(LAST_FILLED);
+    }
     this.values[r][c] = value;
-    this.getCell(r, c).innerHTML = value;
+    const cell = this.getCell(r, c);
+    cell.innerHTML = value;
+    cell.classList.add(LAST_FILLED);
+    this.lastFilled = cell;
   }
 
   getRowValues(r) {
@@ -120,17 +129,20 @@ class grid {
 
 grid = new grid();
 let successCount = 0;
-// puzzles = [puzzles[1]];
-for (let [i, puzzle] of puzzles.entries()) {
-  grid.populateFromString(puzzle);
-  const pre = grid.countFilled();
-  const success = solve();
-  const post = grid.countFilled();
-  successCount += success;
-  let failDetails = '';
-  if (!success) {
-    failDetails = `${pre} -> ${post}`
-  }
-  console.log(i, success, failDetails);
-}
-console.log('# of successes:', successCount);
+// // puzzles = [puzzles[1]];
+// for (let [i, puzzle] of puzzles.entries()) {
+//   grid.populateFromString(puzzle);
+//   const pre = grid.countFilled();
+//   const success = solve();
+//   const post = grid.countFilled();
+//   successCount += success;
+//   let failDetails = '';
+//   if (!success) {
+//     failDetails = `${pre} -> ${post}`
+//   }
+//   console.log(i, success, failDetails);
+// }
+// console.log('# of successes:', successCount);
+
+grid.populateFromString(puzzles[3]);
+solve();
