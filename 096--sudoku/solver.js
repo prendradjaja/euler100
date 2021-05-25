@@ -69,6 +69,8 @@ function checkLocationsInEachBox(state) {
           return { r, c, value };
         } else if (candidates.size === 2) {
           snyderPairs.set(i, j, value, candidates);
+        } else if (candidates.size === 0) {
+          error(`no possible location for ${value} in box ${i}-${j}`);
         }
       }
     }
