@@ -123,5 +123,16 @@ class SnyderPairs {
   }
 
   // does one of the OTHER boxes have a pair (of this value) in this column
-  colHas(c, value, boxRow, boxCol) { return false; }
+  colHas(c, value, boxRow, boxCol) {
+    const otherBoxRows = new Set(ALL_BOX_INDICES);
+    otherBoxRows.delete(boxRow);
+    for (let otherBoxRow of otherBoxRows) {
+      const indices = this._pairs[`${otherBoxRow},${boxCol},${value}`];
+      if (indices && isSuperset(indicesInCol(c - boxCol), indices)) {
+        // console.log('colHas', {c, value, boxCol, boxRow});
+        return true;
+      }
+    }
+    return false;
+  }
 }
