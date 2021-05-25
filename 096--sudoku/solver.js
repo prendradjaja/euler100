@@ -77,6 +77,7 @@ function checkLocationsInEachBox(state) {
   }
 }
 
+// e.g., "which cells in this box can be a 3?" (in this example, value = 3)
 function whichCellsInThisBoxCanBe(boxRow, boxCol, value, state) {
   const { snyderPairs } = state;
   let candidates = new Set(ALL_CELL_INDICES);
