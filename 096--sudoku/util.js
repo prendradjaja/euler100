@@ -16,6 +16,17 @@ function difference(setA, setB) {
   return _difference
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
+function isSuperset(set, subset) {
+  for (let elem of subset) {
+    if (!set.has(elem)) {
+      return false
+    }
+  }
+  return true
+}
+
+
 function one(set) {
   if (set.size !== 1) {
     error('set.size !== 1');

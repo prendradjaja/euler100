@@ -120,7 +120,7 @@ class grid {
 
 grid = new grid();
 let successCount = 0;
-// puzzles = [puzzles[1]];
+// puzzles = [puzzles[3]];
 for (let [i, puzzle] of puzzles.entries()) {
   grid.populateFromString(puzzle);
   const pre = grid.countFilled();

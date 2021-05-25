@@ -1,5 +1,6 @@
 const ALL_VALUES = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 const ALL_CELL_INDICES = new Set([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+const ALL_BOX_INDICES = new Set([0, 3, 6]);
 
 function solve() {
   let found;
@@ -98,14 +99,28 @@ function whichCellsInThisBoxCanBe(boxRow, boxCol, value, state) {
 }
 
 class SnyderPairs {
-  // boxrow,boxcol,value -> [index1, index2]
+  // boxrow,boxcol,value -> Set { index1, index2 }
+  _pairs = {};
 
   // maybe in the future will need to include a check to see if this box-value already only has a single index
   // currently not needed because pairs are only ever added, not deleted
-  set(i, j, value, candidates) {}
+  set(i, j, value, candidates) {
+    this._pairs[`${i},${j},${value}`] = new Set(candidates);
+  }
 
   // does one of the OTHER boxes have a pair (of this value) in this row
-  rowHas(r, value, boxRow, boxCol) { return false; }
+  rowHas(r, value, boxRow, boxCol) {
+    const otherBoxCols = new Set(ALL_BOX_INDICES);
+    otherBoxCols.delete(boxCol);
+    for (let otherBoxCol of otherBoxCols) {
+      const indices = this._pairs[`${boxRow},${otherBoxCol},${value}`];
+      if (indices && isSuperset(indicesInRow(r - boxRow), indices)) {
+        // console.log('rowHas', {r, value, boxRow, boxCol});
+        return true;
+      }
+    }
+    return false;
+  }
 
   // does one of the OTHER boxes have a pair (of this value) in this column
   colHas(c, value, boxRow, boxCol) { return false; }
