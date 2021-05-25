@@ -48,7 +48,7 @@ function checkEachCell() {
   }
 }
 
-// (based just on filled-in digits, not pencil marks)
+// (based on filled-in digits and snyder pairs)
 // for each box:
 //   for each 1..9:
 //     which cells in this box could this number go in?
