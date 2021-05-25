@@ -1,6 +1,5 @@
 function solve() {
   let found;
-  found = findNakedSingle();
   while (found = findNakedSingle()) {
     grid.setCellValue(found.r, found.c, found.value);
   }
