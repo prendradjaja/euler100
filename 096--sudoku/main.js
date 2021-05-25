@@ -111,14 +111,12 @@ class grid {
 }
 
 grid = new grid();
-grid.populateFromString(`
-003020600
-900305001
-001806400
-008102900
-700000008
-006708200
-002609500
-800203009
-005010300
-`);
+let successCount = 0;
+// for (let [i, puzzle] of [puzzles[0]].entries()) {
+for (let [i, puzzle] of puzzles.entries()) {
+  grid.populateFromString(puzzle);
+  const success = solve();
+  successCount += success;
+  console.log(i, success);
+}
+console.log('# of successes:', successCount);

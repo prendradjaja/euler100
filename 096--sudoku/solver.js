@@ -4,7 +4,11 @@ function solve() {
   while (found = findNakedSingle()) {
     grid.setCellValue(found.r, found.c, found.value);
   }
-  console.log(grid.isSolved());
+  const solved = grid.isSolved();
+  if (!solved && grid.isFull()) {
+    error('grid is full but not solved correctly');
+  }
+  return solved;
 }
 
 const ALL_VALUES = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
@@ -27,5 +31,3 @@ function findNakedSingle() {
     }
   }
 }
-
-solve();

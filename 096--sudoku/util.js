@@ -19,12 +19,13 @@ function difference(setA, setB) {
 function one(set) {
   if (set.size !== 1) {
     error('set.size !== 1');
-    return;
   }
   return Array.from(set)[0];
 }
 
-function error(...args) {
-  window.alert('ERROR', ...args);
-  console.error('ERROR', ...args);
+// TODO Probably change to assert or failIf
+function error(message, ...other) {
+  window.alert('ERROR ' + message);
+  console.error('ERROR', message, ...other);
+  throw new Error(); // This error is just used to stop execution
 }
