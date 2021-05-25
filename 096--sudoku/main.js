@@ -32,6 +32,42 @@ class grid {
     }
   }
 
+  isFull() {
+    let zeroes = 0;
+    for (let row of this.values) {
+      for (let value of row) {
+        if (value === 0) {
+          zeroes++;
+        }
+      }
+    }
+    return zeroes === 0;
+  }
+
+  isSolved() {
+    if (!this.isFull()) {
+      return false;
+    }
+    for (let r = 0; r < 9; r++) {
+      if (this.getRowValues(r).size !== 9) {
+        return false;
+      }
+    }
+    for (let c = 0; c < 9; c++) {
+      if (this.getColValues(c).size !== 9) {
+        return false;
+      }
+    }
+    for (let r = 0; r < 9; r += 3) {
+      for (let c = 0; c < 9; c += 3) {
+        if (this.getBoxValues(r, c).size !== 9) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   getCellId(r, c) {
     return `cell-${r}-${c}`;
   }
