@@ -55,8 +55,8 @@ function checkEachCell() {
 function checkLocationsInEachBox(state) {
   const { snyderPairs } = state;
   // for each box
-  for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < 3; j++) {
+  for (let i = 0; i < 9; i += 3) {
+    for (let j = 0; j < 9; j += 3) {
       // for each 1..9
       for (let value = 1; value <= 9; value++) {
         if (grid.getBoxValues(i, j).has(value)) {
