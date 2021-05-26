@@ -58,6 +58,44 @@ public class BigInt implements Cloneable {
     return result;
   }
 
+  public BigInt mul(BigInt other) {
+    // long multiplication with 'this' on bottom
+
+    BigInt[] rows = new BigInt[this.chunks.size()];
+
+    // t,o,r: indices in this.chunks, other.chunks, row.chunks
+    for (int t = 0; t < this.chunks.size(); t++) {
+      int thisChunk = this.chunks.get(t);
+      BigInt row = new BigInt();
+      rows[t] = row;
+
+      for (int r = 0; r < t; r++) {
+        row.chunks.add(0);
+      }
+
+      int carry = 0;
+      for (int o = 0; o < other.chunks.size(); o++) {
+        int otherChunk = other.chunks.get(o);
+        int rowChunk = thisChunk * otherChunk + carry;
+        if (rowChunk <= CHUNK_MAX) {
+          carry = 0;
+        } else {
+          carry = rowChunk / RADIX;
+          rowChunk = rowChunk % RADIX;
+        }
+        row.chunks.add(rowChunk);
+      }
+      row.chunks.add(carry);
+    }
+
+    BigInt result = new BigInt();
+    for (BigInt row : rows) {
+      result = result.add(row);
+    }
+
+    return result;
+  }
+
   // Remove any unnecessary zero most-significant chunk(s)
   private void trim() {
     for (int i = chunks.size() - 1; i > 0; i--) {
@@ -75,6 +113,12 @@ public class BigInt implements Cloneable {
     for (int i = chunks.size() - 1; i >= 0; i--) {
       result += String.format("%04d", chunks.get(i));
     }
+    return result;
+  }
+
+  public static BigInt fromInt(int n) {
+    BigInt result = new BigInt();
+    result.chunks = new ArrayList<>(Arrays.asList(n));
     return result;
   }
 
