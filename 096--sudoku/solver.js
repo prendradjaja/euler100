@@ -20,10 +20,14 @@ function solve() {
 
 function step(state) {
   let result;
-  result = checkEachCell();
-  if (result) return result;
-  result = checkLocationsInEachBox(state);
-  if (result) return result;
+  result = (undefined
+    || checkEachCell()
+    || checkLocationsInEachBox(state)
+    || findSnyderRectangles(state)
+    // or what about naked pairs https://www.conceptispuzzles.com/index.aspx?uri=puzzle/sudoku/techniques
+    // should this be its own function or part of checkEachCell?
+  );
+  return result;
 }
 
 // (based just on filled-in digits, not pencil marks)
@@ -84,6 +88,47 @@ function checkLocationsInEachBox(state) {
       return;
     }
     count = snyderPairs.size();
+  }
+}
+
+function findSnyderRectangles(state) {
+  return (undefined
+    || findSnyderRectanglesHorizontal(state)
+  );
+}
+
+function findSnyderRectanglesHorizontal(state) {
+  return undefined;
+  const { snyderPairs } = state;
+  for (let boxRow of ALL_BOX_INDICES) {
+    for (let boxCol of ALL_BOX_INDICES) {
+      const otherBoxCols = Array.from(difference(ALL_BOX_INDICES, new Set([boxCol])));
+      for (let value of ALL_VALUES) {
+        let example = false;
+        if (value === 3 && boxRow === 0 && boxCol === 6) {
+          // debugger;
+          example = true;
+        }
+        if (
+          !otherBoxCols.every(
+            otherBoxCol => snyderPairs._pairs[`${boxRow},${otherBoxCol},${value}`]
+          )
+        ) {
+          continue;
+        }
+        const otherRows = union(...otherBoxCols.map(
+          otherBoxCol => new Set(Array.from(snyderPairs._pairs[`${boxRow},${otherBoxCol},${value}`])
+            .map(index => biToRc(boxRow, otherBoxCol, index)[0]))
+        ));
+        if (
+          otherRows.size === 2
+        ) {
+          const row = one(difference(indicesInRow(boxRow / 3), otherRows));
+          console.log(boxRow, boxCol, value, row);
+          // console.log(indicesInRow(
+        }
+      }
+    }
   }
 }
 

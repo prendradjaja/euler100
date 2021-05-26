@@ -120,7 +120,7 @@ class grid {
 
 grid = new grid();
 let successCount = 0;
-// puzzles = [puzzles[3]];
+puzzles = [puzzles[27]];
 let digitCount = 0;
 let snyderCount = 0;
 for (let [i, puzzle] of puzzles.entries()) {

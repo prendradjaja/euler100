@@ -36,7 +36,7 @@ function one(set) {
 
 // TODO Probably change to assert or failIf
 function error(message, ...other) {
-  window.alert('ERROR ' + message);
+  // window.alert('ERROR ' + message);
   console.error('ERROR', message, ...other);
   throw new Error(); // This error is just used to stop execution
 }
