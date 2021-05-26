@@ -121,16 +121,20 @@ class grid {
 grid = new grid();
 let successCount = 0;
 // puzzles = [puzzles[3]];
+let digitCount = 0;
+let snyderCount = 0;
 for (let [i, puzzle] of puzzles.entries()) {
   grid.populateFromString(puzzle);
   const pre = grid.countFilled();
-  const success = solve();
+  const { solved, snyderPairs } = solve();
   const post = grid.countFilled();
-  successCount += success;
+  successCount += solved;
+  digitCount += post;
+  snyderCount += snyderPairs.size();
   let failDetails = '';
-  if (!success) {
+  if (!solved) {
     failDetails = `${pre} -> ${post}`
   }
-  console.log(i, success, failDetails);
+  console.log(i, solved, failDetails);
 }
-console.log('# of successes:', successCount);
+console.log('solves, digits, snyders:', successCount, digitCount, snyderCount);

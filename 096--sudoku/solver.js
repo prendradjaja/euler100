@@ -15,7 +15,7 @@ function solve() {
   }
   // TODO for unsolved grids, we still don't have any checks to see if there
   // are clear mistakes (e.g. two 5s in the same row)
-  return solved;
+  return { solved, snyderPairs };
 }
 
 function step(state) {
@@ -54,26 +54,36 @@ function checkEachCell() {
 //     which cells in this box could this number go in?
 //     if exactly one location, return that
 function checkLocationsInEachBox(state) {
+  // TODO get rid of this ridiculous nesting
+  // - move while(true) body into a separate function?
+  // - create generator for "for each box"?
   const { snyderPairs } = state;
-  // for each box
-  for (let i = 0; i < 9; i += 3) {
-    for (let j = 0; j < 9; j += 3) {
-      // for each 1..9
-      for (let value = 1; value <= 9; value++) {
-        if (grid.getBoxValues(i, j).has(value)) {
-          continue;
-        }
-        const candidates = whichCellsInThisBoxCanBe(i, j, value, state);
-        if (candidates.size === 1) {
-          const [r, c] = biToRc(i, j, one(candidates));
-          return { r, c, value };
-        } else if (candidates.size === 2) {
-          snyderPairs.set(i, j, value, candidates);
-        } else if (candidates.size === 0) {
-          error(`no possible location for ${value} in box ${i}-${j}`);
+  let count = snyderPairs.size();
+  while (true) {
+    // for each box
+    for (let i = 0; i < 9; i += 3) {
+      for (let j = 0; j < 9; j += 3) {
+        // for each 1..9
+        for (let value = 1; value <= 9; value++) {
+          if (grid.getBoxValues(i, j).has(value)) {
+            continue;
+          }
+          const candidates = whichCellsInThisBoxCanBe(i, j, value, state);
+          if (candidates.size === 1) {
+            const [r, c] = biToRc(i, j, one(candidates));
+            return { r, c, value };
+          } else if (candidates.size === 2) {
+            snyderPairs.set(i, j, value, candidates);
+          } else if (candidates.size === 0) {
+            error(`no possible location for ${value} in box ${i}-${j}`);
+          }
         }
       }
     }
+    if (count === snyderPairs.size()) {
+      return;
+    }
+    count = snyderPairs.size();
   }
 }
 
@@ -137,5 +147,9 @@ class SnyderPairs {
       }
     }
     return false;
+  }
+
+  size() {
+    return Object.keys(this._pairs).length;
   }
 }
