@@ -4,7 +4,7 @@ def main():
     results = []
 
     # An upper bound on these curious numbers.
-    # TODO Formalize (Is this even right?)
+    # TODO Formalize (Is this even right? Similar to problem 30)
     #
     # 9! = 362_880 (a six-digit number)
     #
