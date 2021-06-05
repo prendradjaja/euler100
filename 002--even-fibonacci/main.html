@@ -7,31 +7,31 @@ b {
 }
 </style>
 
-<b class='x p2'>xx</b><b class='x p1'>x</b>
+<b class='b p2'>bb</b><b class='b p1'>b</b>
 
 <script>
-X = x => document.querySelector(x);
-xx = 'innerText';
+B = b => document.querySelector(b);
+bb = 'innerText';
 n = 40;
 n = 4_000;
 // n = 4_000_000;
-for(;x =
-  (x => {
-    x.classList.add(
-      'x',
+for(;b =
+  (b => {
+    b.classList.add(
+      'b',
       'p'
       +(
         +
-        Array.from(X('.x').classList)
-          .filter(x=>x!=='x')
-          .map(x => x[1])
+        Array.from(B('.b').classList)
+          .filter(b=>b!=='b')
+          .map(b => b[1])
         +1
       )
       % 3
     );
-    x[xx] = X('.x')[xx] + X('.x:not(:first-child)')[xx];
-    if (x[xx].length <= n) return x
+    b[bb] = B('.b')[bb] + B('.b:not(:first-child)')[bb];
+    if (b[bb].length <= n) return b
   })(document.createElement('b'))
-;) document.body.prepend(x);
-console.log(document.body[xx].length);
+;) document.body.prepend(b);
+console.log(document.body[bb].length);
 </script>
