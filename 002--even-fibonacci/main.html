@@ -14,14 +14,12 @@ $ = s => document.querySelector(s);
 n = 40;
 n = 4_000;
 // n = 4_000_000;
-while(true) {
-  next = (next => {
-  next.classList.add('x', 'p'+(+Array.from($('.x').classList).filter(x=>x!=='x').map(x => x[1])+1)%3);
-  next.innerText = $('.x').innerText + $('.x:not(:first-child)').innerText;
-  return next
-  })(document.createElement('span'));
-  if (next.innerText.length > n) break;
-  document.body.prepend(next);
-}
+for(;next =
+  (next => {
+    next.classList.add('x', 'p'+(+Array.from($('.x').classList).filter(x=>x!=='x').map(x => x[1])+1)%3);
+    next.innerText = $('.x').innerText + $('.x:not(:first-child)').innerText;
+    if (next.innerText.length <= n) return next
+  })(document.createElement('span'))
+;) document.body.prepend(next);
 console.log(document.body.innerText.length);
 </script>
