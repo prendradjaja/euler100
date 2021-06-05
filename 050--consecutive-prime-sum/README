@@ -7,3 +7,18 @@ Is there a better algorithm? I suppose instead of iterating over (start, stop) p
 That's all I can think of in terms of optimizations, though.
 
 Try this in C++?
+
+---
+
+update: "optimization" does not actually help significantly in terms of
+runtime, because most of the runtime is spent on the longer lengths (which
+have more iterations), which do not have any valid consecutive sums, so cannot
+break early
+
+but on the other hand, we get the answer very quickly due to the order we do
+things in -- it just takes a long time to confirm it's definitely the answer
+
+but but: if i ever needed to do this for a larger input, i THINK i would bet a
+lot of money that once the program "hung" the last part printed was the
+correct answer -- but i'm too sleepy to be sure my reasoning was right --
+write this out later maybe
