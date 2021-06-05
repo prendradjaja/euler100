@@ -11,6 +11,7 @@ span {
 
 <script>
 X = x => document.querySelector(x);
+xx = 'innerText';
 n = 40;
 n = 4_000;
 // n = 4_000_000;
@@ -28,9 +29,9 @@ for(;x =
       )
       % 3
     );
-    x.innerText = X('.x').innerText + X('.x:not(:first-child)').innerText;
-    if (x.innerText.length <= n) return x
+    x[xx] = X('.x')[xx] + X('.x:not(:first-child)')[xx];
+    if (x[xx].length <= n) return x
   })(document.createElement('span'))
 ;) document.body.prepend(x);
-console.log(document.body.innerText.length);
+console.log(document.body[xx].length);
 </script>
