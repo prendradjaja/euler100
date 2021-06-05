@@ -1,0 +1,6 @@
+main.py:   Python solution as if I had bounded integers.
+
+simple.py: Python solution using built-in bignums.
+
+Main.java: (Too slow -- at least a minute) Java solution using my BigInt. Since
+    Python bignums can handle this, I wonder if I can optimize...
