@@ -1,0 +1,9 @@
+JavaScript solution takes 2 min (1 second for n = 100 thousand)
+
+Python is probably slower
+
+Is there a better algorithm? I suppose instead of iterating over (start, stop) pairs blindly, I could do in order of increasing length (and whenever I find something for a given length, move on to the next length)
+
+That's all I can think of in terms of optimizations, though.
+
+Try this in C++?
