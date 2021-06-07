@@ -1,20 +1,6 @@
 import collections
 
 def main():
-    # ties = []
-    # for i, line in enumerate(open('./input.txt'), start=1):
-    #     line = line.strip()
-    #     cards = line.split()
-    #     hands = cards[:5], cards[5:]
-    #     hand1, hand2 = hands
-    #     value1, value2 = (get_comparison_value(h) for h in hands)
-    #     if value1 == value2:
-    #         ties.append((i, line, hand1, hand2, value1, value2))
-    # print(len(ties), 'ties\n')
-    # if ties:
-    #     i, line, hand1, hand2, value1, value2 = ties[0]
-    #     print(*ties[0], sep='\n')
-
     wins = 0
     for line in open('./input.txt'):
         cards = line.strip().split()
