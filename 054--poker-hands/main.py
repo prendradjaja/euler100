@@ -20,7 +20,14 @@ def main():
         cards = line.strip().split()
         hands = cards[:5], cards[5:]
         rank1, rank2 = (get_rank(h) for h in hands)
-        assert rank1 != rank2, "If this assertion fails, you've hit an unimplemented comparison"
+
+        # I only implemented the minimum sufficient tiebreaking logic to solve
+        # the problem. If e.g. both players have four of a kind, the player
+        # whose quad is of greater rank should win, but this is unimplemented.
+        # These sorts of tiebreaks can be implemented in get_rank() similarly
+        # to how Two of a Kind's tiebreak is implemented.
+        assert rank1 != rank2, "Unimplemented comparison"
+
         if rank1 > rank2:
             wins += 1
     print(wins)
