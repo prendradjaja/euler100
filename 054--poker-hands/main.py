@@ -80,26 +80,27 @@ def get_rank(hand):
     kind_counts = [k.count for k in kinds]
 
     if is_flush and values == {10, 11, 12, 13, 14}:
-        return (100, 'Royal Flush')
+        result = (100, 'Royal Flush')
     elif is_flush and is_straight:
-        return (90, 'Straight Flush')
+        result = (90, 'Straight Flush')
     elif kind_counts == [4, 1]:
-        return (80, 'Four of a Kind')
+        result = (80, 'Four of a Kind')
     elif kind_counts == [3, 2]:
-        return (70, 'Full House')
+        result = (70, 'Full House')
     elif is_flush:
-        return (60, 'Flush')
+        result = (60, 'Flush')
     elif is_straight:
-        return (50, 'Straight')
+        result = (50, 'Straight')
     elif kind_counts == [3, 1, 1]:
-        return (40, 'Three of a Kind')
+        result = (40, 'Three of a Kind')
     elif kind_counts == [2, 2, 1]:
-        return (30, 'Two Pairs')
+        result = (30, 'Two Pairs')
     elif kind_counts == [2, 1, 1, 1]:
-        return (20, 'One Pair', kinds[0].value, max(values))
+        result = (20, 'One Pair', kinds[0].value)
     else:
         assert kind_counts == [1]*5
-        return (10, 'High Card', max(values))
+        result = (10, 'High Card')
+    return result + (max(values),)
 
 CountValuePair = collections.namedtuple('CountValuePair', 'count value')
 
