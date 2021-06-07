@@ -60,7 +60,7 @@ def get_rank(hand):
     is_straight = (len(values) == 5 and
         min(values) + 4 == max(values))
     kinds = get_kinds(hand)
-    kind_counts = [count for count, value in kinds]
+    kind_counts = [k.count for k in kinds]
 
     if is_flush and values == {10, 11, 12, 13, 14}:
         return (100, 'Royal Flush')
@@ -79,13 +79,15 @@ def get_rank(hand):
     elif kind_counts == [2, 2, 1]:
         return (30, 'Two Pairs')
     elif kind_counts == [2, 1, 1, 1]:
-        return (20, 'One Pair')
+        return (20, 'One Pair', kinds[0].value, max(values))
     else:
         assert kind_counts == [1]*5
-        return (10, 'High Card')
+        return (10, 'High Card', max(values))
+
+CountValuePair = collections.namedtuple('CountValuePair', 'count value')
 
 def get_kinds(hand):
-    _ = ((count, value) for value, count in collections.Counter(get_value(card) for card in hand).items())
+    _ = (CountValuePair(count, value) for value, count in collections.Counter(get_value(card) for card in hand).items())
     return list(sorted(_, reverse=True))
 
 if __name__ == '__main__':
