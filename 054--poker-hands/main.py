@@ -1,19 +1,29 @@
 import collections
 
 def main():
-    ties = []
-    for i, line in enumerate(open('./input.txt'), start=1):
-        line = line.strip()
-        cards = line.split()
+    # ties = []
+    # for i, line in enumerate(open('./input.txt'), start=1):
+    #     line = line.strip()
+    #     cards = line.split()
+    #     hands = cards[:5], cards[5:]
+    #     hand1, hand2 = hands
+    #     rank1, rank2 = (get_rank(h) for h in hands)
+    #     if rank1 == rank2:
+    #         ties.append((i, line, hand1, hand2, rank1, rank2))
+    # print(len(ties), 'ties\n')
+    # if ties:
+    #     i, line, hand1, hand2, rank1, rank2 = ties[0]
+    #     print(*ties[0], sep='\n')
+
+    wins = 0
+    for line in open('./input.txt'):
+        cards = line.strip().split()
         hands = cards[:5], cards[5:]
-        hand1, hand2 = hands
         rank1, rank2 = (get_rank(h) for h in hands)
-        if rank1 == rank2:
-            ties.append((i, line, hand1, hand2, rank1, rank2))
-    print(len(ties), 'ties\n')
-    if ties:
-        i, line, hand1, hand2, rank1, rank2 = ties[0]
-        print(*ties[0], sep='\n')
+        assert rank1 != rank2, "If this assertion fails, you've hit an unimplemented comparison"
+        if rank1 > rank2:
+            wins += 1
+    print(wins)
 
 def get_value(card):
     value = card[0]
