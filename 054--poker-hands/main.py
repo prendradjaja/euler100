@@ -1,5 +1,20 @@
 import collections
 
+def main():
+    ties = []
+    for i, line in enumerate(open('./input.txt'), start=1):
+        line = line.strip()
+        cards = line.split()
+        hands = cards[:5], cards[5:]
+        hand1, hand2 = hands
+        rank1, rank2 = (get_rank(h) for h in hands)
+        if rank1 == rank2:
+            ties.append((i, line, hand1, hand2, rank1, rank2))
+    print(len(ties), 'ties\n')
+    if ties:
+        i, line, hand1, hand2, rank1, rank2 = ties[0]
+        print(*ties[0], sep='\n')
+
 def get_value(card):
     value = card[0]
     try:
@@ -72,3 +87,6 @@ def get_rank(hand):
 def get_kinds(hand):
     _ = ((count, value) for value, count in collections.Counter(get_value(card) for card in hand).items())
     return list(sorted(_, reverse=True))
+
+if __name__ == '__main__':
+    main()
