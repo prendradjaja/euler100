@@ -22,9 +22,9 @@ def main():
         value1, value2 = (get_comparison_value(h) for h in hands)
 
         # I only implemented the minimum sufficient tiebreaking logic to solve
-        # the problem. If e.g. both players have four of a kind, the player
-        # whose quad is of greater rank should win, but this is unimplemented.
-        # These sorts of tiebreaks can be implemented in
+        # the given input. If e.g. both players have four of a kind, the
+        # player whose quad is of greater rank should win, but this is
+        # unimplemented. These sorts of tiebreaks can be implemented in
         # get_comparison_value() similarly to how Two of a Kind's tiebreak is
         # implemented.
         assert value1 != value2, "Unimplemented comparison"
