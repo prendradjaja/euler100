@@ -7,28 +7,29 @@ def main():
     #     cards = line.split()
     #     hands = cards[:5], cards[5:]
     #     hand1, hand2 = hands
-    #     rank1, rank2 = (get_rank(h) for h in hands)
-    #     if rank1 == rank2:
-    #         ties.append((i, line, hand1, hand2, rank1, rank2))
+    #     value1, value2 = (get_comparison_value(h) for h in hands)
+    #     if value1 == value2:
+    #         ties.append((i, line, hand1, hand2, value1, value2))
     # print(len(ties), 'ties\n')
     # if ties:
-    #     i, line, hand1, hand2, rank1, rank2 = ties[0]
+    #     i, line, hand1, hand2, value1, value2 = ties[0]
     #     print(*ties[0], sep='\n')
 
     wins = 0
     for line in open('./input.txt'):
         cards = line.strip().split()
         hands = cards[:5], cards[5:]
-        rank1, rank2 = (get_rank(h) for h in hands)
+        value1, value2 = (get_comparison_value(h) for h in hands)
 
         # I only implemented the minimum sufficient tiebreaking logic to solve
         # the problem. If e.g. both players have four of a kind, the player
         # whose quad is of greater rank should win, but this is unimplemented.
-        # These sorts of tiebreaks can be implemented in get_rank() similarly
-        # to how Two of a Kind's tiebreak is implemented.
-        assert rank1 != rank2, "Unimplemented comparison"
+        # These sorts of tiebreaks can be implemented in
+        # get_comparison_value() similarly to how Two of a Kind's tiebreak is
+        # implemented.
+        assert value1 != value2, "Unimplemented comparison"
 
-        if rank1 > rank2:
+        if value1 > value2:
             wins += 1
     print(wins)
 
@@ -48,27 +49,27 @@ def get_value(card):
 def get_suit(card):
     return card[1]
 
-def get_rank(hand):
+def get_comparison_value(hand):
     """
-    >>> get_rank('AS KS QS JS TS'.split())[1]
+    >>> get_comparison_value('AS KS QS JS TS'.split())[1]
     'Royal Flush'
-    >>> get_rank('KS QS JS TS 9S'.split())[1]
+    >>> get_comparison_value('KS QS JS TS 9S'.split())[1]
     'Straight Flush'
-    >>> get_rank('8S 8C 8D 8H 3S'.split())[1]
+    >>> get_comparison_value('8S 8C 8D 8H 3S'.split())[1]
     'Four of a Kind'
-    >>> get_rank('8S 8C 8D 3H 3S'.split())[1]
+    >>> get_comparison_value('8S 8C 8D 3H 3S'.split())[1]
     'Full House'
-    >>> get_rank('2S QS JS TS 9S'.split())[1]
+    >>> get_comparison_value('2S QS JS TS 9S'.split())[1]
     'Flush'
-    >>> get_rank('KD QS JS TS 9S'.split())[1]
+    >>> get_comparison_value('KD QS JS TS 9S'.split())[1]
     'Straight'
-    >>> get_rank('8S 8C 8D 4H 3S'.split())[1]
+    >>> get_comparison_value('8S 8C 8D 4H 3S'.split())[1]
     'Three of a Kind'
-    >>> get_rank('8S 8C 4D 4H 3S'.split())[1]
+    >>> get_comparison_value('8S 8C 4D 4H 3S'.split())[1]
     'Two Pairs'
-    >>> get_rank('8S 8C 5D 4H 3S'.split())[1]
+    >>> get_comparison_value('8S 8C 5D 4H 3S'.split())[1]
     'One Pair'
-    >>> get_rank('8S 7C 5D 4H 3S'.split())[1]
+    >>> get_comparison_value('8S 7C 5D 4H 3S'.split())[1]
     'High Card'
     """
     suits = set(get_suit(card) for card in hand)
