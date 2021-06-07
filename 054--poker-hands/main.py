@@ -92,8 +92,8 @@ def get_comparison_value(hand):
 CountValuePair = collections.namedtuple('CountValuePair', 'count value')
 
 def get_kinds(hand):
-    _ = (CountValuePair(count, value) for value, count in collections.Counter(get_value(card) for card in hand).items())
-    return list(sorted(_, reverse=True))
+    kinds = (CountValuePair(count, value) for value, count in collections.Counter(get_value(card) for card in hand).items())
+    return list(sorted(kinds, reverse=True))
 
 if __name__ == '__main__':
     main()
