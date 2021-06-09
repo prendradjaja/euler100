@@ -21,6 +21,8 @@ function main() {
         result = mySum;
         console.log(maxLength, result);
         break;
+      } else if (mySum >= 1000000) {
+        break;
       }
     }
   }
