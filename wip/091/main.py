@@ -43,19 +43,19 @@ def count_maximal_right_triangles(w, h, mg=None):
     count = 0
     for a in range(2, len(points)):
         for b in range(1, a):
-            for c in range(0, b):
-                pa = points[a]
-                pb = points[b]
-                pc = points[c]
+            c = 0
+            pa = points[a]
+            pb = points[b]
+            pc = points[c]
 
-                if (is_triangle(pa, pb, pc)
-                    and has_right_angle(pa, pb, pc)
-                    and is_maximal(pa, pb, pc, w, h)
-                ):
-                    count += 1
-                    if mg:
-                        mg.add_grid()
-                        mg.add_shape(Polygon(pa, pb, pc))
+            if (is_triangle(pa, pb, pc)
+                and has_right_angle(pa, pb, pc)
+                and is_maximal(pa, pb, pc, w, h)
+            ):
+                count += 1
+                if mg:
+                    mg.add_grid()
+                    mg.add_shape(Polygon(pa, pb, pc))
 
     if mg:
         mg.draw()
