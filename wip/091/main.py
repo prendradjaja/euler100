@@ -17,11 +17,18 @@ def main():
     #     .draw(win)
     # )
 
+    maxsize = 2
     grids_per_row = 3
-    w = 2
-    h = 3
-    grids_per_row = 10 // w
-    mg = MultiGrid(w, h, grids_per_row, win)
+    grids_per_row = 10 // maxsize
+    mg = MultiGrid(maxsize, maxsize, grids_per_row, win)
+    total = 0
+    for w in range(1, maxsize+1):
+        for h in range(1, maxsize+1):
+            total += count_maximal_right_triangles(w, h, mg)
+    print(total)
+    win.getMouse()
+
+def count_maximal_right_triangles(w, h, mg=None):
 
     points = []
     for i in range(w):
@@ -33,6 +40,7 @@ def main():
     for i in range(h):
         points.append(Point(0, h-i))
 
+    count = 0
     for a in range(2, len(points)):
         for b in range(1, a):
             for c in range(0, b):
@@ -44,12 +52,14 @@ def main():
                     and has_right_angle(pa, pb, pc)
                     and is_maximal(pa, pb, pc, w, h)
                 ):
-                    mg.add_grid()
-                    mg.add_shape(Polygon(pa, pb, pc))
+                    count += 1
+                    if mg:
+                        mg.add_grid()
+                        mg.add_shape(Polygon(pa, pb, pc))
 
-    mg.draw()
-
-    win.getMouse()
+    if mg:
+        mg.draw()
+    return count
 
 def slope(a, b):
     """ Returns inf for vertical slope """
