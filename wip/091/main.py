@@ -2,10 +2,6 @@ from graphics import *
 
 def main():
     win = GraphWin(width = 500, height = 800)
-    h = 5
-    w = 5
-    m = max(h, w)
-    padding = 0.1
     win.setCoords(0, 0, win.width, win.height)
 
     # Grid(Point(0, 0), Point(w, h)).draw(win)
