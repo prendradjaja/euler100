@@ -68,12 +68,10 @@ class MultiGrid:
                 x2 = self.padding + (self.grid_width + self.padding) * c + self.grid_width
                 y1 = self.padding + (self.grid_height + self.padding) * r
                 y2 = self.padding + (self.grid_height + self.padding) * r + self.grid_height
-                # Rectangle(Point(x1, y1), Point(x2, y2)).draw(self.win)
                 move(Grid(Point(0, 0), Point(self.w, self.h)), [
                     [[0, 0], [self.w, self.h]],
                     [[x1, y1], [x2, y2]],
                 ]).draw(self.win)
-                print(x1, y1)
 
 
 
@@ -123,8 +121,6 @@ def move(shape, boxes):
         return Polygon(*points)
     elif isinstance(shape, Grid):
         shapes = [move(shape, boxes) for shape in shape.shapes]
-        # p1 = move(shape.p1, boxes)
-        # p2 = move(shape.p2, boxes)
         return Grid.from_shapes(shapes)
     else:
         raise Exception("Not implemented: move() for " + str(type(shape)))
