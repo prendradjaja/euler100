@@ -33,9 +33,6 @@ def main():
     for i in range(h):
         points.append(Point(0, h-i))
 
-    # for i,p in enumerate(points):
-    #     print(i,p)
-
     for a in range(2, len(points)):
         for b in range(1, a):
             for c in range(0, b):
@@ -43,25 +40,12 @@ def main():
                 pb = points[b]
                 pc = points[c]
 
-                # if set([a, b, c]) == {0, 2, 6}:
-                #     print(pa, pb, pc)
-                #     print(is_triangle(pa, pb, pc),
-                #         has_right_angle(pa, pb, pc),
-                #         is_maximal(pa, pb, pc, w, h))
-                #     mg.add_grid()
-                #     mg.add_shape(Polygon(pa, pb, pc))
-
                 if (is_triangle(pa, pb, pc)
                     and has_right_angle(pa, pb, pc)
                     and is_maximal(pa, pb, pc, w, h)
                 ):
-                    # print(a, b, c)
                     mg.add_grid()
                     mg.add_shape(Polygon(pa, pb, pc))
-
-    # for _ in range(9):
-    #     mg.add_grid()
-    #     mg.add_shape(Polygon(Point(0.1, 0.1), Point(1.5, 0.5), Point(1.9, 1.9)))
 
     mg.draw()
 
@@ -83,8 +67,6 @@ def has_right_angle(a, b, c):
     m_ab = slope(a, b)
     m_ac = slope(a, c)
     m_bc = slope(b, c)
-    # print(m_ab, m_ac, m_bc,
-        # '|', m_ac, rotate_90(m_bc))
     return (False
         or slope_equals(m_ab, rotate_90(m_ac))
         or slope_equals(m_ac, rotate_90(m_bc))
@@ -242,9 +224,5 @@ class LinearEquation:
 
     def __call__(self, x):
         return self.m * x + self.b
-
-# def clear(win):
-#     for item in win.items[:]:
-#         item.undraw()
 
 main()
