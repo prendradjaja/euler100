@@ -23,7 +23,8 @@ def main():
     grids_per_row = 3
     mg = MultiGrid(3, 3, grids_per_row, win)
     for _ in range(9):
-        mg.next_grid()
+        mg.add_grid()
+        mg.add_shape(Polygon(Point(0.1, 0.1), Point(1.5, 0.5), Point(1.9, 1.9)))
     mg.draw()
 
     win.getMouse()
@@ -43,11 +44,11 @@ class MultiGrid:
 
         self.rows = [
             [ # row
-                [] # shape
+                # [] # shape
             ]
         ]
 
-    def next_grid(self):
+    def add_grid(self):
         if len(self.current_row()) == self.grids_per_row:
             self.rows.append([])
         self.current_row().append([])
@@ -59,7 +60,7 @@ class MultiGrid:
         return self.current_row()[-1]
 
     def add_shape(self, shape):
-        self.current_grid.append(shape)
+        self.current_grid().append(shape)
 
     def draw(self):
         for r, row in enumerate(self.rows):
@@ -68,10 +69,13 @@ class MultiGrid:
                 x2 = self.padding + (self.grid_width + self.padding) * c + self.grid_width
                 y1 = self.padding + (self.grid_height + self.padding) * r
                 y2 = self.padding + (self.grid_height + self.padding) * r + self.grid_height
-                move(Grid(Point(0, 0), Point(self.w, self.h)), [
+                boxes = [
                     [[0, 0], [self.w, self.h]],
                     [[x1, y1], [x2, y2]],
-                ]).draw(self.win)
+                ]
+                move(Grid(Point(0, 0), Point(self.w, self.h)), boxes).draw(self.win)
+                for shape in shapes:
+                    move(shape, boxes).draw(self.win)
 
 
 
