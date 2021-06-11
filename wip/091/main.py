@@ -2,8 +2,6 @@ from graphics import *
 import math
 
 def main():
-    win = GraphWin(width = 500, height = 800)
-    win.setCoords(0, 0, win.width, win.height)
 
     # Grid(Point(0, 0), Point(w, h)).draw(win)
     # (
@@ -17,16 +15,24 @@ def main():
     #     .draw(win)
     # )
 
-    maxsize = 2
-    grids_per_row = 3
-    grids_per_row = 10 // maxsize
-    mg = MultiGrid(maxsize, maxsize, grids_per_row, win)
+    draw = True
+    maxsize = 50
+
+    if draw:
+        win = GraphWin(width = 500, height = 800)
+        win.setCoords(0, 0, win.width, win.height)
+        grids_per_row = 3
+        grids_per_row = max(10 // maxsize, 1)
+        mg = MultiGrid(maxsize, maxsize, grids_per_row, win)
+
     total = 0
-    for w in range(1, maxsize+1):
+    for w in range(0, maxsize+1):
+        print('...', w)
         for h in range(1, maxsize+1):
-            total += count_maximal_right_triangles(w, h, mg)
+            total += count_maximal_right_triangles(w, h, mg = mg if draw else None)
     print(total)
-    win.getMouse()
+    if draw:
+        win.getMouse()
 
 def count_maximal_right_triangles(w, h, mg=None):
 
