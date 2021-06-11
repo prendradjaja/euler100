@@ -1,4 +1,5 @@
 from graphics import *
+import math
 
 def main():
     win = GraphWin(width = 500, height = 800)
@@ -17,13 +18,106 @@ def main():
     # )
 
     grids_per_row = 3
-    mg = MultiGrid(3, 3, grids_per_row, win)
-    for _ in range(9):
-        mg.add_grid()
-        mg.add_shape(Polygon(Point(0.1, 0.1), Point(1.5, 0.5), Point(1.9, 1.9)))
+    w = 2
+    h = 3
+    grids_per_row = 10 // w
+    mg = MultiGrid(w, h, grids_per_row, win)
+
+    points = []
+    for i in range(w):
+        points.append(Point(i, 0))
+    for i in range(h):
+        points.append(Point(w, i))
+    for i in range(w):
+        points.append(Point(w-i, h))
+    for i in range(h):
+        points.append(Point(0, h-i))
+
+    # for i,p in enumerate(points):
+    #     print(i,p)
+
+    for a in range(2, len(points)):
+        for b in range(1, a):
+            for c in range(0, b):
+                pa = points[a]
+                pb = points[b]
+                pc = points[c]
+
+                # if set([a, b, c]) == {0, 2, 6}:
+                #     print(pa, pb, pc)
+                #     print(is_triangle(pa, pb, pc),
+                #         has_right_angle(pa, pb, pc),
+                #         is_maximal(pa, pb, pc, w, h))
+                #     mg.add_grid()
+                #     mg.add_shape(Polygon(pa, pb, pc))
+
+                if (is_triangle(pa, pb, pc)
+                    and has_right_angle(pa, pb, pc)
+                    and is_maximal(pa, pb, pc, w, h)
+                ):
+                    # print(a, b, c)
+                    mg.add_grid()
+                    mg.add_shape(Polygon(pa, pb, pc))
+
+    # for _ in range(9):
+    #     mg.add_grid()
+    #     mg.add_shape(Polygon(Point(0.1, 0.1), Point(1.5, 0.5), Point(1.9, 1.9)))
+
     mg.draw()
 
     win.getMouse()
+
+def slope(a, b):
+    """ Returns inf for vertical slope """
+    try:
+        return (b.y - a.y) / (b.x - a.x)
+    except ZeroDivisionError:
+        return float('inf')
+
+def is_triangle(a, b, c):
+    m_ab = slope(a, b)
+    m_bc = slope(b, c)
+    return not slope_equals(m_ab, m_bc)
+
+def has_right_angle(a, b, c):
+    m_ab = slope(a, b)
+    m_ac = slope(a, c)
+    m_bc = slope(b, c)
+    # print(m_ab, m_ac, m_bc,
+        # '|', m_ac, rotate_90(m_bc))
+    return (False
+        or slope_equals(m_ab, rotate_90(m_ac))
+        or slope_equals(m_ac, rotate_90(m_bc))
+        or slope_equals(m_bc, rotate_90(m_ab))
+    )
+
+def is_maximal(a, b, c, w, h):
+    xmax = max(a.x, b.x, c.x)
+    xmin = min(a.x, b.x, c.x)
+    ymax = max(a.y, b.y, c.y)
+    ymin = min(a.y, b.y, c.y)
+    return (True
+        and float_equals(0, xmin)
+        and float_equals(0, ymin)
+        and float_equals(w, xmax)
+        and float_equals(h, ymax)
+    )
+
+def slope_equals(m1, m2):
+    if math.isinf(m1) and math.isinf(m2):
+        return True
+    else:
+        return float_equals(m1, m2)
+
+def rotate_90(m):
+    """ Expects and returns inf for vertical slope """
+    try:
+        return -1/m
+    except ZeroDivisionError:
+        return float('inf')
+
+def float_equals(a, b, epsilon=0.000001):
+    return abs(a - b) < epsilon
 
 class MultiGrid:
     def __init__(self, w, h, grids_per_row, win):
