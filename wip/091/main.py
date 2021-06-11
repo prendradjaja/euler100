@@ -29,9 +29,9 @@ def main():
     win.getMouse()
 
 class MultiGrid:
-    def __init__(self, h, w, grids_per_row, win):
-        self.h = h
+    def __init__(self, w, h, grids_per_row, win):
         self.w = w
+        self.h = h
         self.grids_per_row = grids_per_row
         self.win = win
 
@@ -68,8 +68,11 @@ class MultiGrid:
                 x2 = self.padding + (self.grid_width + self.padding) * c + self.grid_width
                 y1 = self.padding + (self.grid_height + self.padding) * r
                 y2 = self.padding + (self.grid_height + self.padding) * r + self.grid_height
-                Rectangle(Point(x1, y1), Point(x2, y2)).draw(self.win)
-                # move(Grid(Point(0, 0), Point(self.w, self.h))).draw(self.win)
+                # Rectangle(Point(x1, y1), Point(x2, y2)).draw(self.win)
+                move(Grid(Point(0, 0), Point(self.w, self.h)), [
+                    [[0, 0], [self.w, self.h]],
+                    [[x1, y1], [x2, y2]],
+                ]).draw(self.win)
                 print(x1, y1)
 
 
@@ -82,6 +85,12 @@ class Grid:
             self.shapes.append(Line(Point(x, p1.y), Point(x, p2.y)))
         for y in float_range(p1.y, p2.y+dy, dy):
             self.shapes.append(Line(Point(p1.x, y), Point(p2.x, y)))
+
+    @staticmethod
+    def from_shapes(shapes):
+        g = Grid(Point(0, 0), Point(1, 1))
+        g.shapes = shapes
+        return g
 
     def draw(self, win):
         for shape in self.shapes:
@@ -105,9 +114,20 @@ def move(shape, boxes):
     # TODO instead of creating new obj, try clone() methods -- would preserve config (fill etc)
     if isinstance(shape, Point):
         return Point(x(shape.x), y(shape.y))
+    elif isinstance(shape, (Line, Rectangle)): # _BBox
+        p1 = move(shape.p1, boxes)
+        p2 = move(shape.p2, boxes)
+        return type(shape)(p1, p2)
     elif isinstance(shape, Polygon):
         points = [move(point, boxes) for point in shape.points]
         return Polygon(*points)
+    elif isinstance(shape, Grid):
+        shapes = [move(shape, boxes) for shape in shape.shapes]
+        # p1 = move(shape.p1, boxes)
+        # p2 = move(shape.p2, boxes)
+        return Grid.from_shapes(shapes)
+    else:
+        raise Exception("Not implemented: move() for " + str(type(shape)))
 
 
 class LinearEquation:
