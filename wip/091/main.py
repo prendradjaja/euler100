@@ -1,24 +1,30 @@
 from graphics import *
 
 def main():
-    win = GraphWin(width = 500, height = 400)
+    win = GraphWin(width = 500, height = 800)
     h = 5
     w = 5
     m = max(h, w)
     padding = 0.1
-    win.setCoords((0 - padding)*m, (0 - padding)*m, (1 + padding)*m, (1 + padding)*m)
+    win.setCoords(0, 0, win.width, win.height)
 
-    Grid(Point(0, 0), Point(w, h)).draw(win)
-    (
-        move(
-            Polygon(Point(0.1, 0.1), Point(1.5, 0.5), Point(1.9, 1.9)),
-            [
-                [[0, 0], [2, 2]],
-                [[1, 0], [3, 2]],
-            ]
-        )
-        .draw(win)
-    )
+    # Grid(Point(0, 0), Point(w, h)).draw(win)
+    # (
+    #     move(
+    #         Polygon(Point(0.1, 0.1), Point(1.5, 0.5), Point(1.9, 1.9)),
+    #         [
+    #             [[0, 0], [2, 2]],
+    #             [[1, 0], [3, 2]],
+    #         ]
+    #     )
+    #     .draw(win)
+    # )
+
+    grids_per_row = 3
+    mg = MultiGrid(3, 3, grids_per_row, win)
+    for _ in range(9):
+        mg.next_grid()
+    mg.draw()
 
     win.getMouse()
 
@@ -35,15 +41,36 @@ class MultiGrid:
         self.grid_width = (win.width - total_padding) / self.grids_per_row
         self.grid_height = self.h / self.w * self.grid_width
 
-        self.row = 0
-        self.col = 0
+        self.rows = [
+            [ # row
+                [] # shape
+            ]
+        ]
 
-    def next_grid():
-        self.col = (self.col + 1) % self.grids_per_row
-        self.row += self.col == 0
+    def next_grid(self):
+        if len(self.current_row()) == self.grids_per_row:
+            self.rows.append([])
+        self.current_row().append([])
 
-    def add_shape(shape):
-        pass
+    def current_row(self):
+        return self.rows[-1]
+
+    def current_grid(self):
+        return self.current_row()[-1]
+
+    def add_shape(self, shape):
+        self.current_grid.append(shape)
+
+    def draw(self):
+        for r, row in enumerate(self.rows):
+            for c, shapes in enumerate(row):
+                x1 = self.padding + (self.grid_width + self.padding) * c
+                x2 = self.padding + (self.grid_width + self.padding) * c + self.grid_width
+                y1 = self.padding + (self.grid_height + self.padding) * r
+                y2 = self.padding + (self.grid_height + self.padding) * r + self.grid_height
+                Rectangle(Point(x1, y1), Point(x2, y2)).draw(self.win)
+                # move(Grid(Point(0, 0), Point(self.w, self.h))).draw(self.win)
+                print(x1, y1)
 
 
 
