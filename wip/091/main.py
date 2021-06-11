@@ -80,9 +80,13 @@ class Grid:
     def __init__(self, p1, p2, dx=1, dy=1):
         self.shapes = []
         for x in float_range(p1.x, p2.x+dx, dx):
-            self.shapes.append(Line(Point(x, p1.y), Point(x, p2.y)))
+            line = Line(Point(x, p1.y), Point(x, p2.y))
+            line.setOutline('gray')
+            self.shapes.append(line)
         for y in float_range(p1.y, p2.y+dy, dy):
-            self.shapes.append(Line(Point(p1.x, y), Point(p2.x, y)))
+            line = Line(Point(p1.x, y), Point(p2.x, y))
+            line.setOutline('gray')
+            self.shapes.append(line)
 
     @staticmethod
     def from_shapes(shapes):
@@ -115,7 +119,10 @@ def move(shape, boxes):
     elif isinstance(shape, (Line, Rectangle)): # _BBox
         p1 = move(shape.p1, boxes)
         p2 = move(shape.p2, boxes)
-        return type(shape)(p1, p2)
+        copy = shape.clone()
+        copy.p1 = p1
+        copy.p2 = p2
+        return copy
     elif isinstance(shape, Polygon):
         points = [move(point, boxes) for point in shape.points]
         return Polygon(*points)
