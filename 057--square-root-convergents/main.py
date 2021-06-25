@@ -7,9 +7,9 @@ def f(n):
         return (3, 2)
     else:
         a, b = f(n - 1)
-        c, d = (a + 2*b, a + b)
-        assert gcd(c, d) == 1  # It turns out this is true. Any nice way to prove it?
-        return c, d
+        a2, b2 = (a + 2*b, a + b)
+        assert gcd(a2, b2) == 1  # It turns out this is true. Any nice way to prove it?
+        return a2, b2
 
 def count_digits(n):
     return len(str(n))
