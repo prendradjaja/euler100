@@ -26,23 +26,43 @@ print('ready')
 
 def main():
     example = {3, 7, 109, 673}
+    seen = {}
     # what = [3, 11, 17, 53]
     # print(ok([3, 7, 109, 673]))
     # return
-    for i, idxs in enumerate(combos(3)):
-        selected = [primes[idx] for idx in idxs]
+    n = 4
+    for i, idxs in enumerate(combos(n)):
+        selected = tuple(primes[idx] for idx in idxs)
 
-        # if i % 100000 == 0:
-        #     print(i // 1000, idxs[-1], primes[idxs[-1]])
+        if i % 100000 == 0:
+            print('...', i // 1000, idxs[-1], primes[idxs[-1]])
 
         if ok(selected):
             print(selected)
-            return
+            if init(selected) in seen:
+                candidate = init(selected) + (seen[init(selected)],) + (selected[-1],)
+                if ok(candidate):
+                    print(candidate, '!!!')
+                    exit()
+
+            # for subset in itertools.combinations(selected, len(selected) - 1):
+            #     seen.add(subset)
+            for i in range(n):
+                subset = tuple(x for j, x in enumerate(selected) if j != i)
+                seen[subset] = selected[i]
+            # print(seen)
+            # exit()
+
+
+            # return
             # print(selected, '***' if set(selected) <= example else '')
 
         # if selected == [3, 7, 109, 673]:
         #     print(i)
         #     return
+
+def init(lst):
+    return lst[:-1]
 
 def ok(prime_set):
     for a, b in itertools.permutations(prime_set, 2):
