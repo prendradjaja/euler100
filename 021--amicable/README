@@ -1,0 +1,2 @@
+10,000 is a small enough number that there's need to do anything like "skip
+checking 284 because we already saw 220".
