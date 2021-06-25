@@ -8,7 +8,13 @@ def f(n):
     else:
         a, b = f(n - 1)
         a2, b2 = (a + 2*b, a + b)
-        assert gcd(a2, b2) == 1  # It turns out this is true. Any nice way to prove it?
+
+        # We will never need to reduce the fraction. Why? At each iteration,
+        # we compute the next fraction by: adding one, inverting one, and
+        # adding one again. None of these steps can make an irreducible
+        # fraction reducible.
+        assert gcd(a2, b2) == 1
+
         return a2, b2
 
 def count_digits(n):
