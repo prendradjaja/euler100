@@ -26,9 +26,9 @@ def main():
 
     for shape_order in itertools.permutations([4, 5, 6, 7, 8]):
         shape_order = (3,) + shape_order
-        for each in number_sets(shape_order, grouped_figurates, 'ANY'):
-            if suffix(each[-1]) == prefix(each[0]):
-                print(sum(each))
+        for number_set in number_sets(shape_order, grouped_figurates, 'ANY'):
+            if suffix(number_set[-1]) == prefix(number_set[0]):
+                print(sum(number_set))
 
 def four_digit_values(f):
     for n in itertools.count(start=1):
