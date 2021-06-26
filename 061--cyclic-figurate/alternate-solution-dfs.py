@@ -1,3 +1,10 @@
+"""
+I was initially thinking of this as DFS graph search, but this is really a
+tree search, since each node can only be reached from the origin in one way.
+
+But also, this is really just backtracking, isn't it?
+"""
+
 from collections import defaultdict
 import itertools
 import sys
