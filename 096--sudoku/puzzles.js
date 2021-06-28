@@ -499,3 +499,5 @@ let puzzles = [`
 000702000
 000008006
 `];
+
+exports.puzzles = puzzles;
