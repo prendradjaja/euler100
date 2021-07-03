@@ -13,6 +13,7 @@ def main():
         for a, b in consecutives(line):
             g.add_edge(a, b)
 
+    assert nx.is_directed_acyclic_graph(g)
     print(''.join(nx.topological_sort(g)))
 
 
