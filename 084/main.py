@@ -108,7 +108,7 @@ class Game:
 
 
     def roll(self):
-        DIE_SIDES = 6
+        DIE_SIDES = 4
         a = random.randint(1, DIE_SIDES)
         b = random.randint(1, DIE_SIDES)
 
