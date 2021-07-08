@@ -1,9 +1,12 @@
+#!/usr/bin/env python3
+
+import sys
 from collections import OrderedDict
 
-def main():
-    n = 100_000_000
+def main(n):
     for p in primes_up_to(n):
         print(p)
+
 
 # A simple implementation of the Sieve of Eratosthenes
 # n is inclusive
@@ -21,5 +24,13 @@ def primes_up_to(n):
         if is_prime[n]:
             yield n
 
+
 if __name__ == '__main__':
-    main()
+    try:
+        n = int(sys.argv[1])
+    except:
+        print('Usage: python3 generate_primes.py N')
+        print('Generates primes up to N (inclusive)')
+        exit()
+
+    main(n)

@@ -1,13 +1,13 @@
+#!/usr/bin/env python3
+
 import itertools
+import sys
 from generate_primes import primes_up_to
 
 
-def main():
-    low_cap = 10000
-    high_cap = low_cap * low_cap
-    primes = {int(line.rstrip('\n')) for line in open('primes-up-to-100m.txt')}
-
-    for v, w in itertools.combinations(primes_up_to(low_cap), 2):
+def main(n):
+    primes = {int(line.rstrip('\n')) for line in sys.stdin}
+    for v, w in itertools.combinations(primes_up_to(n), 2):
         if intcat(v, w) in primes and intcat(w, v) in primes:
             print(v, w)
 
@@ -17,4 +17,11 @@ def intcat(a, b):
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        n = int(sys.argv[1])
+    except:
+        print('Usage: cat PRIMES | python3 make_graph.py N')
+        print('PRIMES should be a file containing primes up to N^2')
+        exit()
+
+    main(n)

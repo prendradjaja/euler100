@@ -1,13 +1,14 @@
+#!/usr/bin/env python3
+
 import itertools
+import sys
 from graph import Graph
 
 
-def main():
-    g = Graph.from_edge_list_file('./graph-10k.txt')
-    cliques = find_cliques(g, 5)
-    clique = min(cliques, key=sum)
-    print(clique)
-    print('Answer:', sum(clique))
+def main(n):
+    g = Graph.from_edge_list_file(sys.stdin)
+    for clique in find_cliques(g, n):
+        print(' '.join(str(n) for n in clique))
 
 
 def find_cliques(g, size):
@@ -35,4 +36,10 @@ def find_larger_cliques(g, prev_cliques):
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        n = int(sys.argv[1])
+    except:
+        print('Usage: cat GRAPH | python3 find_cliques.py N')
+        exit()
+
+    main(n)
