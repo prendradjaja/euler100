@@ -4,7 +4,7 @@ import re
 
 class Graph:
     '''
-    Undirected graph with vertices named 1 through N
+    Undirected graph
     '''
 
     def __init__(self):
