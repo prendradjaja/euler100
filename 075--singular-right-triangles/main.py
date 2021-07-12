@@ -14,8 +14,7 @@ def main():
         counts[perimeter] += 1
 
     print(sum(1 for perimeter in counts
-              if counts[perimeter] == 1
-                  and perimeter <= perimeter_limit))
+              if counts[perimeter] == 1))
 
 
 def pythagorean_triples(m_limit, perimeter_limit):
