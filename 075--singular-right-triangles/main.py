@@ -10,8 +10,8 @@ def main():
 
     counts = Counter()
     for triple in triples:
-        p = sum(triple)
-        counts[p] += 1
+        perimeter = sum(triple)
+        counts[perimeter] += 1
 
     print(sum(1 for perimeter in counts if counts[perimeter] == 1))
 
