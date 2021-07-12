@@ -7,8 +7,9 @@ def main():
 
     seen = set()
     counts = Counter()
-    for triple in unique(pythagorean_triples(m_limit, p_limit),
-                         key=lambda triple: tuple(sorted(triple))):
+    triples = pythagorean_triples(m_limit, p_limit)
+    triples = unique(triples, key=lambda triple: tuple(sorted(triple)))
+    for triple in triples:
         p = sum(triple)
         counts[p] += 1
 
