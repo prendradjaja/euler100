@@ -13,7 +13,7 @@ def main():
         p = sum(triple)
         counts[p] += 1
 
-    print(sum(1 for i in range(1, p_limit+1) if counts[i] == 1))
+    print(sum(1 for perimeter in counts if counts[perimeter] == 1))
 
 
 def pythagorean_triples(m_limit, p_limit):
