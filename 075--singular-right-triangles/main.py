@@ -3,9 +3,9 @@ from collections import Counter
 
 def main():
     m_limit = 866  # Found by inspection
-    p_limit = 1_500_000
+    perimeter_limit = 1_500_000
 
-    triples = pythagorean_triples(m_limit, p_limit)
+    triples = pythagorean_triples(m_limit, perimeter_limit)
     triples = unique(triples, key=lambda triple: tuple(sorted(triple)))
 
     counts = Counter()
@@ -13,14 +13,24 @@ def main():
         perimeter = sum(triple)
         counts[perimeter] += 1
 
-    print(sum(1 for perimeter in counts if counts[perimeter] == 1))
+    print(sum(1 for perimeter in counts
+              if counts[perimeter] == 1
+                  and perimeter <= perimeter_limit))
 
 
-def pythagorean_triples(m_limit, p_limit):
+def pythagorean_triples(m_limit, perimeter_limit):
+    '''
+    Generates Pythagorean triples with Euclid's formula for every pair (m, n)
+    up to m_limit (inclusive). (m, n) are as described in euclid().
+
+    Also generates multiples of these triples up to the given perimeter limit
+    (inclusive). Some triples with a larger perimeter may be generated as
+    well. The caller is responsible for excluding these triples if necessary.
+    '''
     for m, n in natural_pairs(m_limit):
         base_triple = euclid(m, n)
-        base_p = sum(base_triple)
-        for k in range(1, p_limit // base_p + 1):
+        perimeter = sum(base_triple)
+        for k in range(1, perimeter_limit // perimeter + 1):
             triple = [x*k for x in base_triple]
             yield triple
 
