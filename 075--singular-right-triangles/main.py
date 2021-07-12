@@ -26,6 +26,20 @@ def pythagorean_triples(m_limit, p_limit):
 
 
 def euclid(m, n):
+    '''
+    Euclid's formula for generating Pythagorean triples.
+    https://en.wikipedia.org/w/index.php?title=Pythagorean_triple&oldid=1028947457#Generating_a_triple
+
+    Given arbitrary integers (m, n) such that m > n > 0, the resulting triple
+    (a, b, c) will be a Pythagorean triple.
+
+    This formula generates every primitive triple ("primitive" = a, b, and c
+    are coprime) and also some (not all) non-primitive triples.
+
+    There are some simple rules (see Wikipedia) that determine whether a pair
+    (m, n) will generate a primitive triple, but they're not relevant to this
+    use case.
+    '''
     a = m**2 - n**2
     b = 2*m*n
     c = m**2 + n**2
