@@ -5,10 +5,10 @@ def main():
     m_limit = 866  # Found by inspection
     p_limit = 1_500_000
 
-    seen = set()
-    counts = Counter()
     triples = pythagorean_triples(m_limit, p_limit)
     triples = unique(triples, key=lambda triple: tuple(sorted(triple)))
+
+    counts = Counter()
     for triple in triples:
         p = sum(triple)
         counts[p] += 1
