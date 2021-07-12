@@ -24,8 +24,40 @@ def pythagorean_triples(m_limit, perimeter_limit):
     up to m_limit (inclusive). (m, n) are as described in euclid().
 
     Also generates multiples of these triples up to the given perimeter limit
-    (inclusive). Some triples with a larger perimeter may be generated as
-    well. The caller is responsible for excluding these triples if necessary.
+    (inclusive).
+
+    These triples are not guaranteed to be unique or in sorted order.
+
+    An example for m_limit = 4, which corresponds to these (m, n) pairs:
+
+        (2, 1),
+        (3, 1), (3, 2),
+        (4, 1), (4, 2), (4, 3)
+
+    >>> list(pythagorean_triples(4, 50)) == [
+    ...    # (m, n) = (2, 1)  ->  (a, b, c) = (3, 4, 5)
+    ...    [3, 4, 5],
+    ...    [6, 8, 10],
+    ...    [9, 12, 15],
+    ...    [12, 16, 20],
+    ...
+    ...    # (m, n) = (3, 1)  ->  (a, b, c) = (8, 6, 10)
+    ...    [8, 6, 10],
+    ...    [16, 12, 20],
+    ...
+    ...    # (m, n) = (3, 2)  ->  (a, b, c) = (5, 12, 13)
+    ...    [5, 12, 13],
+    ...
+    ...    # (m, n) = (4, 1)  ->  (a, b, c) = (15, 8, 17)
+    ...    [15, 8, 17],
+    ...
+    ...    # (m, n) = (4, 2)  ->  (a, b, c) = (12, 16, 20)
+    ...    [12, 16, 20],
+    ...
+    ...    # (m, n) = (4, 3)  ->  (a, b, c) = (7, 24, 25), but this triple is
+    ...    # excluded because its perimeter is already above 50.
+    ... ]
+    True
     '''
     for m, n in natural_pairs(m_limit):
         base_triple = euclid(m, n)
@@ -49,6 +81,13 @@ def euclid(m, n):
     There are some simple rules (see Wikipedia) that determine whether a pair
     (m, n) will generate a primitive triple, but they're not relevant to this
     use case.
+
+    >>> euclid(2, 1)
+    [3, 4, 5]
+    >>> euclid(3, 1)
+    [8, 6, 10]
+    >>> euclid(3, 2)
+    [5, 12, 13]
     '''
     a = m**2 - n**2
     b = 2*m*n
@@ -72,6 +111,9 @@ def unique(seq, key):
 
 def natural_pairs(m_limit):
     '''
+    Generates all pairs of positive integers (m, n) up to m_limit such that
+    m > n
+
     >>> list(natural_pairs(5)) == [
     ...     (2, 1),
     ...     (3, 1), (3, 2),
