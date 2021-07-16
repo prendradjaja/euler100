@@ -2,3 +2,6 @@ chain [12034, 547460, 5380, 133640, 3850, 179596, 7694, 232208, 458384, 253844, 
 elem 402170
 chain length 65
 answer 1184
+
+oops, 1184 is not part of a long cycle (there's just a chain that leads to that cycle)
+gotta find the longest cycle i guess!

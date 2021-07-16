@@ -1,4 +1,2 @@
 run:
-	python3 s.py
-test:
-	python3 -m doctest s.py
+	python3 find_longest_cycle.py
