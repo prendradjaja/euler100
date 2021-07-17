@@ -6,6 +6,7 @@ function union(setA, setB) {
   }
   return _union
 }
+exports.union = union;
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
 function difference(setA, setB) {
@@ -15,6 +16,7 @@ function difference(setA, setB) {
   }
   return _difference
 }
+exports.difference = difference;
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
 function isSuperset(set, subset) {

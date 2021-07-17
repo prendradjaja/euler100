@@ -1,22 +1,11 @@
-const $ = s => document.querySelector(s);
-
 const GIVEN = 'given';
+let puzzles = require('./puzzles').puzzles;
+const solve = require('./solver').solve;
 
 class grid {
   values;
 
   populateFromString(s) {
-    const rootElement = $('#grid');
-    let html = '';
-    for (let r = 0; r < 9; r++) {
-      html += `<tr>`;
-      for (let c = 0; c < 9; c++) {
-        html += `<td id="${this.getCellId(r, c)}"></td>`;
-      }
-      html += `</tr>`;
-    }
-    rootElement.innerHTML = html;
-
     this.values = [];
     for (let [r, row] of s.trim().split('\n').entries()) {
       const rowValues = [];
@@ -26,7 +15,6 @@ class grid {
         rowValues.push(value);
         if (value) {
           this.setCellValue(r, c, value);
-          this.getCell(r, c).classList.add(GIVEN);
         }
       }
     }
@@ -72,21 +60,12 @@ class grid {
     return true;
   }
 
-  getCellId(r, c) {
-    return `cell-${r}-${c}`;
-  }
-
-  getCell(r, c) {
-    return $('#'+this.getCellId(r, c));
-  }
-
   getCellValue(r, c) {
     return this.values[r][c];
   }
 
   setCellValue(r, c, value) {
     this.values[r][c] = value;
-    this.getCell(r, c).innerHTML = value;
   }
 
   getRowValues(r) {
@@ -121,20 +100,7 @@ class grid {
 grid = new grid();
 let successCount = 0;
 // puzzles = [puzzles[3]];
-let digitCount = 0;
-let snyderCount = 0;
 for (let [i, puzzle] of puzzles.entries()) {
   grid.populateFromString(puzzle);
-  const pre = grid.countFilled();
-  const { solved, snyderPairs } = solve();
-  const post = grid.countFilled();
-  successCount += solved;
-  digitCount += post;
-  snyderCount += snyderPairs.size();
-  let failDetails = '';
-  if (!solved) {
-    failDetails = `${pre} -> ${post}`
-  }
-  console.log(i, solved, failDetails);
+  solve(grid);
 }
-console.log('solves, digits, snyders:', successCount, digitCount, snyderCount);
