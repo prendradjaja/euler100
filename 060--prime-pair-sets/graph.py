@@ -32,3 +32,6 @@ class Graph:
             for w in self._neighbors[v]:
                 result.add(tuple(sorted([v, w])))
         return result
+
+    def vertices(self):
+        yield from self._neighbors
