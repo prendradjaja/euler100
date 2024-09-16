@@ -1,0 +1,34 @@
+body {
+  background: black;
+  color: white;
+}
+
+#grid {
+  border-collapse: collapse;
+}
+
+#grid td {
+  height: 100px;
+  width: 100px;
+  border: 1px solid #999;
+  text-align: center;
+  font-size: 60px;
+  font-family: sans-serif;
+}
+
+#grid tr:nth-child(3) td,
+#grid tr:nth-child(6) td {
+  border-bottom-width: 4px;
+  border-bottom-color: white;
+}
+
+
+#grid td:nth-child(3),
+#grid td:nth-child(6) {
+  border-right-width: 4px;
+  border-right-color: white;
+}
+
+#grid td.given {
+  background-color: #333;
+}
