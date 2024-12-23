@@ -20,6 +20,9 @@ def find_cliques(g, size):
 
 def find_larger_cliques(g, prev_cliques):
     '''
+    WARNING: This is a pretty slow implementation! Good enough for PE60, but if you need something faster, see:
+    https://github.com/prendradjaja/advent-of-code-2024/blob/main/23py/b.py
+
     g: An undirected graph
     prev_cliques: All cliques of some size n in g
 
